@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: docuinsight-postgres
+    environment:
+      POSTGRES_USER: docuinsight
+      POSTGRES_PASSWORD: docuinsight
+      POSTGRES_DB: docuinsight
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./drizzle/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  pgdata:
