@@ -16,7 +16,7 @@ export function getMimeTypeFromFilename(filename: string): string | null {
 }
 
 async function extractPdfText(buffer: Buffer): Promise<string> {
-  const mod = (await import("@cedrugs/pdf-parse")) as unknown as {
+  const mod = (await import("pdf-parse")) as unknown as {
     default: (data: Buffer) => Promise<{ text: string }>;
   };
   const result = await mod.default(buffer);

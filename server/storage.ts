@@ -288,11 +288,11 @@ export async function categoryDocuments(opts: {
     .orderBy(desc(documents.modifiedAt))
     .limit(limit)
     .offset(offset);
-  const [{ count }] = await db
+  const totalRows = await db
     .select({ count: sql<number>`count(*)::int` })
     .from(documents)
     .where(where);
-  return { data, total: count ?? 0 };
+  return { data, total: totalRows[0]?.count ?? 0 };
 }
 
 export async function repositoryHealth() {
