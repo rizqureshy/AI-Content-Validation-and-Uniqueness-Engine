@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Documents from "./pages/Documents";
 import Upload from "./pages/Upload";
 import Analysis from "./pages/Analysis";
+import ScormDoctor from "./pages/ScormDoctor";
 import Settings from "./pages/Settings";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/documents" component={Documents} />
         <Route path="/upload" component={Upload} />
         <Route path="/analysis" component={Analysis} />
+        <Route path="/scorm" component={ScormDoctor} />
         <Route path="/settings" component={Settings} />
         <Route>404 — page not found</Route>
       </Switch>

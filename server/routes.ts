@@ -5,6 +5,7 @@ import { hasCohere, hasOpenAI, hasSharepoint } from "./env.js";
 import { isSharePointConnected } from "./sharepoint.js";
 import { extractTextFromBuffer, getMimeTypeFromFilename } from "./document-parser.js";
 import { analyzeDocument, prePublishCheck } from "./analysis.js";
+import { analyzeScormPackage } from "./scorm/analyze.js";
 import { syncConfiguredSite } from "./sync.js";
 import {
   categoryDocuments,
@@ -25,6 +26,10 @@ import {
 export const router = Router();
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 50 * 1024 * 1024 } });
+const scormUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 500 * 1024 * 1024 },
+});
 
 router.get("/health", async (_req, res) => {
   const stats = await repositoryHealth();
@@ -74,6 +79,20 @@ router.post("/documents/pre-publish-check", upload.single("file"), async (req, r
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+  }
+});
+
+router.post("/scorm/analyze", scormUpload.single("file"), async (req, res) => {
+  if (!req.file) return res.status(400).json({ error: "file is required" });
+  try {
+    const checkUrlsParam = String(req.query.checkUrls ?? req.body?.checkUrls ?? "true");
+    const report = await analyzeScormPackage(req.file.buffer, {
+      filename: req.file.originalname,
+      checkUrls: checkUrlsParam !== "false",
+    });
+    res.json(report);
+  } catch (err) {
+    res.status(400).json({ error: err instanceof Error ? err.message : String(err) });
   }
 });
 
