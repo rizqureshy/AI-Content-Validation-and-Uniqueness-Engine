@@ -1,12 +1,20 @@
 import { Link, useLocation } from "wouter";
 import { cn } from "../lib/utils";
-import { LayoutDashboard, FileText, UploadCloud, GitCompare, Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  FileText,
+  UploadCloud,
+  GitCompare,
+  Settings,
+  Stethoscope,
+} from "lucide-react";
 
 const NAV = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/documents", label: "Documents", icon: FileText },
   { to: "/upload", label: "Pre-publish", icon: UploadCloud },
   { to: "/analysis", label: "Analysis", icon: GitCompare },
+  { to: "/scorm", label: "SCORM Doctor", icon: Stethoscope },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
